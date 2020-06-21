@@ -1,5 +1,5 @@
-import React from "react";
-
+import React, { useEffect, useState } from "react";
+import api from "./services/api";
 import {
   SafeAreaView,
   View,
@@ -11,9 +11,19 @@ import {
 } from "react-native";
 
 export default function App() {
-  async function handleLikeRepository(id) {
-    // Implement "Like Repository" functionality
-  }
+  const [repositories, setRepositories] = useState([]);
+
+  console.log("hi");
+
+  useEffect(() => {
+    api
+      .get("/repositories")
+      .then((res) => {
+        setRepositories(res.data);
+        console.log(res.data);
+      })
+      .catch((e) => console.log(e));
+  }, []);
 
   return (
     <>
@@ -23,12 +33,8 @@ export default function App() {
           <Text style={styles.repository}>Repository 1</Text>
 
           <View style={styles.techsContainer}>
-            <Text style={styles.tech}>
-              ReactJS
-            </Text>
-            <Text style={styles.tech}>
-              Node.js
-            </Text>
+            <Text style={styles.tech}>ReactJS</Text>
+            <Text style={styles.tech}>Node.js</Text>
           </View>
 
           <View style={styles.likesContainer}>
